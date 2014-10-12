@@ -1,0 +1,91 @@
+<html>
+	<head>
+		<link rel="stylesheet" href="/view/libs/css/bootstrap.css">
+		<link rel="stylesheet" href="/view/libs/css/font-awesome.min.css">
+		<script src="/view/libs/js/jquery.js"></script>
+		<script src="/view/libs/js/bootstrap.js"></script>
+		<script src="/view/libs/js/angular.js"></script>
+		<script src="/view/libs/js/angular.ressource.js"></script>
+		<script src="/view/libs/js/angular.route.js"></script>
+		<script>
+		var filethot = angular.module('filethot', ['ngRoute','ngResource']);
+		filethot.config(function($routeProvider, $locationProvider) {
+		  $routeProvider
+		   .when('/files/:pathSource*', {
+		   	templateUrl: "/view/media.html",
+		   	controller:'mainCtrl'
+		  })
+		  .otherwise({
+	        redirectTo: '/files',
+	        templateUrl: "/view/base.html"
+	      });
+		  //$locationProvider.html5Mode(true);
+		});
+		filethot.controller('mainCtrl', ['$scope','File','$route','$routeParams','$location',function ($scope,File,$route, $routeParams, $location) {
+			$scope.$route = $route;
+		  	$scope.files = {};
+
+		  $scope.openIt = function(f){
+		  	$location.path(['/files/',f].join(''));
+		  }
+		  $scope.clickIt = function(f){
+		  	if(f.type=="dir")
+		  		$scope.openIt(f.path);
+		  	else{
+		  		$scope.current = f;
+		  	}
+		  }
+
+		  $scope.iconType = function(f){
+		  	var fileType = {
+		  		'application/pdf':'fa-file-pdf-o',
+		  		'image/jpg':'fa-file-picture-o',
+		  		'image/jpeg':'fa-file-picture-o',
+		  };
+		  	switch(f.type){
+		  		case 'dir':
+		  			return "fa-folder"
+		  		break;
+		  		case 'file':
+		  			if(f.mime in fileType){
+		  				return fileType[f.mime];
+		  			}else{
+		  				return "fa-file";
+		  			}
+		  		break;
+		  		default:
+		  			return "fa-file";
+		  		break;
+		  	}
+		  }
+
+		  $scope.getFile = function(w){
+		  	if(!w)
+		  		w = ("pathSource" in $routeParams) ? $routeParams.pathSource : false;
+		  	if(w){
+			  	File.get({where:w},function(m){
+			  		$scope.files = m;
+			  	});
+		  	}
+		  }
+		  $scope.$on('$routeChangeSuccess', function(next, current) { 
+		  	$scope.getFile();
+		 });
+		}]);
+
+		filethot.factory('File', ['$resource',
+		  function($resource){
+		    return $resource('/?ajax', {}, {
+		      get: {method:'POST', params:{}, isArray:false}
+		    });
+		}]);
+
+
+		</script>
+	</head>
+	<body ng-app="filethot" ng-controller="mainCtrl">
+		{{path}}
+		<ng-view></ng-view>
+		
+	</body>
+</html>

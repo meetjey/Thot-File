@@ -1,0 +1,8 @@
+- indexation en ajax
+- indexation des meta data (pdf, psd, images,...)
+- config de base de données
+- configuration du dossier à lire
+- angularjs
+- inteface light & claire
+- php, complement nodejs pour watch les répertoires
+- isoler l'appel de l'indexeur
