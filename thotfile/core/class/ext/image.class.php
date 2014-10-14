@@ -1,7 +1,7 @@
 <?php
 
 class ImageFile extends FileAnalytics{
-	var $file,$info;
+	var $file;
 
 	function __construct($file){
 		$this->file = $file;
@@ -9,10 +9,17 @@ class ImageFile extends FileAnalytics{
 	}
 
 	function getMeta(){
-		$exif = exif_read_data($this->file, 'IFD0');
 
-		//$this->info = array('title'=>$p->title,'author'=>$p->author,'pages'=>$p->pages);
+		$this->info = array('title'=>"",'author'=>"",'pages'=>"");
+		$this->info['exif'] = cs_read_image_metadata ($this->file);
+		$this->info['preview'] = '<img class="img-responsive" src="'.$this->getPreview().'" />';
 	}
+
+	function getPreviewName(){
+		$ext = pathinfo($this->file, PATHINFO_EXTENSION);
+		return md5($this->file).".$ext";
+	}
+
 
 	
 }

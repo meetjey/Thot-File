@@ -6,11 +6,15 @@
 	</div>
 	<div class="col-md-4">
 		<ul class="list-group">
-			<li class="list-group-item">{{current.preview}}</li>
-			<li class="list-group-item">Name : {{current.name}}</li>
-			<li class="list-group-item">Author : {{current.author}}</li>
-			<li class="list-group-item">Pages : {{current.pages}}</li>
+			<li ng-show="current.preview" class="list-group-item" compile="current.preview"></li>
+			<li ng-show="current.exif.title" class="list-group-item">Title : {{current.exif.title}}</li>
+			<li ng-show="current.name" class="list-group-item">FileName : {{current.name}}</li>
+			<li ng-show="current.mime" class="list-group-item">Type : {{current.mime}}</li>
+			<li ng-show="current.author" class="list-group-item">Author : {{current.author}}</li>
+			<li ng-show="current.pages" class="list-group-item">Pages : {{current.pages}}</li>
+			<li ng-show="current.exif.credit" class="list-group-item">Credit : {{current.exif.credit}}</li>
+			<li ng-show="current.exif.copyright" class="list-group-item">Copyright : {{current.exif.copyright}}</li>
+			<li ng-show="current.exif.keywords" class="list-group-item">Keywords : <span ng-repeat="keyword in current.exif.keywords">{{keyword}}, </span></li>
 		</ul>
-		
 	</div>
 </div>

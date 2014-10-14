@@ -27,7 +27,7 @@ class DirAnalytics{
 	         } 
 	         else 
 	         { 
-	            $result[$value] = $this->getFileInfo(array('name'=>$value,'type'=>'file','mime'=>mime_content_type($fullpath),'path'=>$fullpath));
+	            $result[$value] = array('name'=>$value,'type'=>'file','mime'=>mime_content_type($fullpath),'path'=>$fullpath);
 	         } 
 	      } 
 	   } 
@@ -35,19 +35,6 @@ class DirAnalytics{
 	   return $result; 
 	}
 
-	function getFileInfo($args){
-		$map = array(
-			'application/pdf' => 'PdfFile'
-		);
-
-		if(array_key_exists($args['mime'],$map)){
-			$file = new $map[$args['mime']]($args['path']);
-			$file->getMeta();
-			return array_merge($args,$file->info);
-		}else{
-			return $args;
-		}
-	}
 
 	function listAllFiles($dir) { 
 	   $result = array(); 

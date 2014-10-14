@@ -13,10 +13,11 @@ class PdfFile extends FileAnalytics{
 		$p->load($this->file);
 
 		$this->info = array('title'=>$p->title,'author'=>$p->author,'pages'=>$p->pages);
-		$this->info['preview'] = '<iframe src="'.$this->file.'"></iframe>';
+		$this->info['preview'] = '<iframe width="100%" src="'.$this->getPreview().'"></iframe>';
 	}
 
-	
+
+
 }
 
 ?>
