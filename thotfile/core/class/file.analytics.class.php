@@ -1,12 +1,12 @@
 <?php
 
 class FileAnalytics{
-	var $info,$f;
-
+	var $info,$f,$db;
 
 	function __construct($f){
+		global $base;
 		$this->file = $f;
-
+		$this->db = $base->selectDB(CURRENT_BASE);
 	}
 
 	function getFileInfo(){
@@ -41,6 +41,19 @@ class FileAnalytics{
 	function getPreviewName(){
 		$ext = pathinfo($this->file, PATHINFO_EXTENSION);
 		return md5($this->file).".$ext";
+	}
+
+	function indexIt(){
+		$return = array('status'=>'success');
+		$query = array( "path" => $this->file);
+		$return['action'] = 'find';
+		$fileIndex = $this->db->files->findOne($query);
+		if(!$fileIndex){
+			$fileInfo = $this->getFileInfo();
+			$this->db->files->insert($fileInfo);
+			$return['action'] = 'insert';
+		}
+		return $return;
 	}
 }
 

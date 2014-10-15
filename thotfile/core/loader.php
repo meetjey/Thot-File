@@ -3,6 +3,12 @@ define('ROOT_PATH',$_SERVER['DOCUMENT_ROOT'].'/');
 define('ROOT_TMP',ROOT_PATH.'tmp/');
 define('ROOT_URL','http://www.thotfile.com/');
 define('ROOT_URL_TMP',ROOT_URL.'tmp/');
+define('CURRENT_BASE','base');
+
+global $base;
+$base = new MongoClient(); // connexion
+
+
 require_once "libs/PDFInfo.php";
 require_once "libs/formating.php";
 require_once "libs/image.utils.php";

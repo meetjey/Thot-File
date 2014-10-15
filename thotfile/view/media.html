@@ -15,6 +15,7 @@
 			<li ng-show="current.exif.credit" class="list-group-item">Credit : {{current.exif.credit}}</li>
 			<li ng-show="current.exif.copyright" class="list-group-item">Copyright : {{current.exif.copyright}}</li>
 			<li ng-show="current.exif.keywords" class="list-group-item">Keywords : <span ng-repeat="keyword in current.exif.keywords">{{keyword}}, </span></li>
+			<li ng-click="indexIt(current.path)">Index it</li>
 		</ul>
 	</div>
 </div>

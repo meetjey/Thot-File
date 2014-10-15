@@ -62,6 +62,12 @@
 		  	}
 		  }
 
+		  $scope.indexIt = function(p){
+				File.indexIt({file:p},function(m){
+
+			  	});
+		  }
+
 		  $scope.iconType = function(f){
 		  	var fileType = {
 		  		'application/pdf':'fa-file-pdf-o',
@@ -103,7 +109,8 @@
 		  function($resource){
 		    return $resource('/?ajax', {}, {
 		      get: {method:'POST', params:{action:'list'}, isArray:false},
-		      getFileInfo: {method:'POST', params:{action:'fileInfo'}, isArray:false}
+		      getFileInfo: {method:'POST', params:{action:'fileInfo'}, isArray:false},
+		      indexIt: {method:'POST', params:{action:'index'}, isArray:false},
 		    });
 		}]);
 
