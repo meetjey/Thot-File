@@ -24,6 +24,12 @@ if($isAction){
 			$file = new FileAnalytics($data['file']);
 			echo json_encode($file->indexIt());
 			break;
+		case 'find':
+			if(!isset($data['q']))
+				return;
+			$file = new FileAnalytics();
+			echo json_encode($file->findIt($data['q']));
+			break;
 		default:
 			# code...
 			break;

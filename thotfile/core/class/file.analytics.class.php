@@ -3,9 +3,10 @@
 class FileAnalytics{
 	var $info,$f,$db;
 
-	function __construct($f){
+	function __construct($f=false){
 		global $base;
-		$this->file = $f;
+		if($f)
+			$this->file = $f;
 		$this->db = $base->selectDB(CURRENT_BASE);
 	}
 
@@ -53,6 +54,31 @@ class FileAnalytics{
 			$this->db->files->insert($fileInfo);
 			$return['action'] = 'insert';
 		}
+		return $return;
+	}
+	function findIt($q){
+		$return = array('status'=>'success');
+		$where = array('$or'=>
+			array(
+			)
+		);
+		if(substr($q,0,1)=='/'){
+			$q = substr($q,1);
+			$q = str_replace(' ','([A-Za-z0-9-_\.\/]+)',$q);
+			$where['$or'][] = array('path' => array('$regex' => new MongoRegex('/'.$q.'/i')));
+		}else{
+			$q = str_replace(' ','([A-Za-z0-9-_\.\/]+)',$q);
+			$where['$or'][] = array('name' => array('$regex' => new MongoRegex('/'.$q.'/i')));
+			$where['$or'][] = array('keywords' => array('$regex' => new MongoRegex('/'.$q.'/i')));
+		}
+		$fileIndex = $this->db->files->find($where);
+		$results = array();
+		while ($fileIndex->hasNext())
+		{ 
+        	$temp = $fileIndex->getNext(); 
+        	$results[$temp['name']] = $temp; 
+		}
+		$return['results'] = $results;
 		return $return;
 	}
 }
